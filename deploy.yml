@@ -1,0 +1,36 @@
+---
+version: "2.0"
+
+services:
+  web:
+    image: chandrastation/gmx-io-akash:v0.0.3
+    expose:
+      - port: 59208
+        as: 80
+        to:
+          - global: true
+
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: .1
+        memory:
+          size: 1Gi
+        storage:
+          size: 1Gi
+  placement:
+    dcloud:
+      attributes:
+        host: akash
+      pricing:
+        web:
+          denom: uakt
+          amount: 1000
+
+deployment:
+  web:
+    dcloud:
+      profile: web
+      count: 1
